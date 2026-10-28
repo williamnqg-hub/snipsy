@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Snipsy — Gafetes, boletos de rifa, diplomas y etiquetas desde una lista</title>
+<meta name="description" content="Pega tu lista y descarga el PDF: gafetes, tarjetas de mesa, boletos de rifa numerados, diplomas, etiquetas, vales y bingo. Gratis y sin cuenta.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,800;1,9..144,600&family=Nunito:wght@500;700;800&display=swap">
+<style>
+:root{--bg:#F6EFE2;--card:#FFFBF3;--ink:#1E2A33;--mute:#6A6258;--line:#E3D8C3;--c:#D9402B;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#17191C;--card:#202327;--ink:#F3ECDD;--mute:#A9A192;--line:#35322C;color-scheme:dark}}
+:root[data-theme=dark]{--bg:#17191C;--card:#202327;--ink:#F3ECDD;--mute:#A9A192;--line:#35322C;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg) radial-gradient(var(--line) 1px,transparent 1px) 0 0/22px 22px;color:var(--ink);font:500 16px/1.5 Nunito,system-ui,sans-serif;overflow-x:hidden}
+.w{max-width:1080px;margin:0 auto;padding:0 16px}
+header{padding:16px 0;display:flex;align-items:center;gap:10px}
+.lg{font:800 26px Fraunces,Georgia,serif;letter-spacing:-.02em}.lg i{display:inline-block;width:26px;height:18px;background:var(--c);border-radius:3px;margin-right:8px;vertical-align:-2px;position:relative;transition:.3s}
+.lg i:before,.lg i:after{content:"";position:absolute;top:5px;width:8px;height:8px;border-radius:50%;background:var(--bg)}.lg i:before{left:-4px}.lg i:after{right:-4px}
+h1{font:800 clamp(34px,6.4vw,62px)/1.05 Fraunces,Georgia,serif;letter-spacing:-.03em;margin:10px 0 12px;max-width:15ch}
+mark{background:linear-gradient(transparent 60%,#F2C14E 60%);color:inherit;padding:0 2px}
+.sub{color:var(--mute);font-size:18px;max-width:52ch;margin:0 0 26px}
+.app{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start}
+@media(max-width:840px){.app{grid-template-columns:1fr}}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:20px}
+.st{display:flex;gap:10px;align-items:center;font:800 19px Fraunces,Georgia,serif;margin:0 0 12px}.st b{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--bg);font:800 15px Nunito,sans-serif}
+.sec+.sec{margin-top:24px}
+.tps{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.tp{text-align:left;border:1.5px solid var(--line);background:var(--bg);border-radius:12px;padding:10px 12px;cursor:pointer;color:var(--ink);font:inherit;min-height:56px}
+.tp b{display:block;font-weight:800}.tp span{font-size:13px;color:var(--mute)}
+.tp[aria-pressed=true]{border-color:var(--ink);background:var(--card);box-shadow:4px 4px 0 var(--c)}
+label{display:block;font-weight:800;font-size:14px;margin:12px 0 4px}
+input,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;min-height:44px}
+textarea{line-height:28px;padding:6px 12px;background:repeating-linear-gradient(transparent 0 27px,var(--line) 27px 28px) 0 5px;resize:vertical}
+:focus-visible{outline:3px solid var(--c);outline-offset:2px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hint{font-size:13px;color:var(--mute);margin:4px 0 0}
+.sw{display:flex;gap:10px;margin-top:4px}.sw button{width:38px;height:38px;border-radius:50%;border:3px solid var(--card);box-shadow:0 0 0 1.5px var(--line);cursor:pointer}.sw button[aria-pressed=true]{box-shadow:0 0 0 3px var(--ink)}
+.btn{width:100%;margin-top:22px;border:0;border-radius:14px;background:var(--c);color:var(--bc,#fff);font:800 18px Nunito,sans-serif;padding:15px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.28);min-height:52px}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.28)}.btn:disabled{opacity:.6;cursor:wait}
+#msg{min-height:22px;font-size:14px;margin:10px 0 0;font-weight:700}
+.pvw{position:sticky;top:calc(12px + env(safe-area-inset-top,0px))}
+.pvb{background:repeating-linear-gradient(45deg,transparent 0 10px,rgba(128,118,98,.07) 10px 20px);border-radius:12px;padding:22px 14px;display:grid;place-items:center;min-height:230px}
+.cap{display:flex;justify-content:space-between;font-size:13px;color:var(--mute);margin-top:10px;gap:8px}.cap b{color:var(--ink)}
+.pc{background:#fff;color:#1E2A33;box-shadow:0 2px 0 #d8ccb5,0 12px 24px -10px rgba(40,30,10,.35);width:100%;max-width:340px;overflow:hidden;position:relative;font-family:Nunito,sans-serif;text-align:center}
+.g{aspect-ratio:90/62;border-radius:6px}.g .gb{padding:9px 10px 8px;font-weight:800;font-size:13px;min-height:34px}.g .ho{position:absolute;left:50%;top:5px;width:12px;height:6px;margin-left:-6px;border-radius:6px;background:rgba(255,255,255,.9)}
+.g b{display:block;font:800 clamp(22px,6vw,30px) Fraunces,Georgia,serif;margin-top:12px;padding:0 10px;line-height:1.1}.g em{display:block;font-style:normal;color:#6A6258;margin-top:4px}
+.m{border-radius:6px;border-top:7px solid var(--c);border-bottom:7px solid var(--c);padding:6px 10px}.m b{display:block;font:800 clamp(24px,6.5vw,34px) Fraunces,Georgia,serif;padding:14px 0}.m b+hr{border:0;border-top:2px dashed #b9ad95;margin:0}.m b:last-child{transform:rotate(180deg)}
+.r{display:grid;grid-template-columns:30% 1fr;border-radius:6px;border:2px solid var(--c);text-align:left;min-height:120px}
+.r .s{background:var(--c);padding:10px 6px;text-align:center}.r .s small{display:block;font-size:10px;opacity:.85}.r .s b{font:800 22px Fraunces,Georgia,serif}.r .d{padding:10px 12px;border-left:2px dashed #b9ad95;position:relative}
+.r h4{margin:0;font:800 17px/1.1 Fraunces,Georgia,serif;padding-right:48px}.r p{margin:6px 0 0;font-size:12px;color:#6A6258;padding-right:48px}.r .n{position:absolute;left:12px;bottom:8px;font-weight:800}
+.r .pr{position:absolute;right:8px;top:50%;margin-top:-18px;min-width:40px;height:40px;padding:0 5px;border-radius:50%;background:var(--c);color:var(--oc);display:grid;place-items:center;font-weight:800;font-size:12px}
+.d2{aspect-ratio:297/210;padding:7px;border:5px solid var(--c);border-radius:4px}.d2>div{height:100%;border:1.5px solid var(--c);display:flex;flex-direction:column;justify-content:center;gap:2px;padding:4px 10px}
+.d2 h4{margin:0;font:800 clamp(13px,4vw,20px) Nunito,sans-serif;text-transform:uppercase;color:var(--c);letter-spacing:.06em}.d2 i{font:italic 600 12px Fraunces,Georgia,serif;color:#6A6258}.d2 b{font:italic 700 clamp(20px,6vw,30px) Fraunces,Georgia,serif;border-bottom:1.5px solid var(--c);margin:0 18px}.d2 p{margin:2px 0 0;font-size:11px;color:#6A6258}
+.bg2{border-radius:6px;padding:8px;max-width:280px}.bg2 h4{margin:0 0 6px;background:var(--c);color:var(--oc);padding:6px;border-radius:3px;font-weight:800}.bg2 div{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}.bg2 span{border:1.5px solid var(--c);aspect-ratio:1;display:grid;place-items:center;font-weight:800;font-size:11px;line-height:1;padding:1px;overflow:hidden;word-break:break-word}.bg2 span.f{background:var(--c);color:var(--oc);font-size:8px}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin:50px 0 10px}.how div{border-top:3px solid var(--ink);padding-top:10px}.how h3{font:800 20px Fraunces,Georgia,serif;margin:0}.how p{margin:4px 0 0;color:var(--mute)}
+h2{font:800 28px Fraunces,Georgia,serif;margin:44px 0 8px;letter-spacing:-.02em}
+details{border-top:1.5px solid var(--line);padding:12px 0}summary{font-weight:800;cursor:pointer}details p{margin:8px 0 0;color:var(--mute)}
+footer{color:var(--mute);font-size:14px;padding:36px 0 40px}
+[hidden]{display:none!important}
+
+.tt{display:flex;gap:10px;align-items:center}.tt svg{width:28px;height:28px;flex:none;fill:none;stroke:var(--c);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.tt div{min-width:0}
+.vs{display:flex;gap:8px;flex-wrap:wrap}.vs .tp{min-height:44px;padding:8px 16px}.sw{flex-wrap:wrap}
+.ck{display:flex;gap:8px;align-items:center;margin:0}.ck input{width:20px;min-height:20px;accent-color:var(--c)}
+.g1{text-align:left;padding:0 14px 0 40px}.g1 .gb{background:none!important;color:var(--c)!important;text-transform:uppercase;font-size:11px;letter-spacing:.08em;padding:12px 0 0;min-height:0;text-align:left}.g1 .ho{display:none}.g1:before{content:"";position:absolute;left:0;top:0;bottom:0;width:26px;background:var(--c)}.g1:after{content:"";position:absolute;left:26px;top:0;bottom:0;width:5px;background:var(--a)}.g1 b{margin-top:14px;padding:0}
+.g2{border:5px solid var(--c);border-radius:14px}.g2 .gb{background:none!important;color:var(--c)!important;min-height:0;padding:24px 10px 0;text-transform:uppercase;font-size:11px;letter-spacing:.08em}.g2 .ho{width:14px;height:14px;top:9px;margin-left:-7px;border-radius:50%;background:var(--a)}.g2 b{margin-top:6px}
+.m1{border:2px solid var(--c);border-radius:3px;outline:2px solid var(--a);outline-offset:-9px}.m1 b{font-style:italic}
+.r1{grid-template-columns:1fr 30%}.r1 .s{order:2}.r1 .d{order:1;border-left:0;border-right:2px dashed #b9ad95}
+.e1{border:0;border-left:56px solid var(--c)}.e1>div{border:0;align-items:flex-start;text-align:left}.e1 b{margin:0}
+.e2{border:2px solid var(--c);outline:2px solid var(--a);outline-offset:-8px;border-radius:2px}.e2>div{border:0}.e2 h4{font-family:Fraunces,Georgia,serif;letter-spacing:.14em}
+.et{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:none;box-shadow:none;overflow:visible}.et span{background:#fff;border:2px solid var(--c);border-radius:10px;padding:8px 4px;box-shadow:0 2px 0 #d8ccb5;min-width:0}.et small{display:block;font-size:9px;color:#6A6258;min-height:12px}.et b{font:800 14px Fraunces,Georgia,serif;word-break:break-word}.et1 span{border:0;border-left:10px solid var(--c);border-radius:4px;text-align:left;padding-left:8px}
+.vl{border:2px dashed var(--c);border-radius:8px;padding:0 0 12px}.vl .vt{background:var(--c);color:var(--oc);font-weight:800;padding:8px;letter-spacing:.12em;font-size:13px}.vl p{margin:16px 14px 4px;font:800 21px/1.15 Fraunces,Georgia,serif}.vl small{color:#6A6258}.vl1{border:0;border-left:44px solid var(--c);border-radius:6px}.vl1 .vt{background:#fff;color:var(--c);text-align:left;padding:8px 12px}
+.b1 span:nth-child(even){background:var(--a);color:var(--ac)}
+</style></head><body>
+<div class="w">
+<header><div class="lg"><i></i>Snipsy</div></header>
+<h1>De una lista a <mark>hojas listas</mark> para imprimir</h1>
+<p class="sub">Gafetes, boletos de rifa numerados, diplomas, etiquetas, vales y bingo. Pegas los nombres, eliges un diseño y bajas el PDF. Gratis y sin cuenta.</p>
+<main class="app">
+<section class="card">
+<div class="sec"><h2 class="st"><b>1</b>¿Qué quieres imprimir?</h2><div class="tps" id="tps" role="group" aria-label="Tipo de pieza"></div><p class="hint" id="use"></p></div>
+<div class="sec"><h2 class="st"><b>2</b>Diseño y color</h2><label>Diseño</label><div class="vs" id="vs" role="group" aria-label="Diseño"></div><label>Color</label><div class="sw" id="sw" role="group" aria-label="Color"></div></div>
+<div class="sec"><h2 class="st"><b>3</b>Escribe el texto</h2>
+<label for="ti" id="tl">Título</label><input id="ti" maxlength="60">
+<div id="gB"><label for="su" id="sl">Detalle</label><input id="su" maxlength="90"></div></div>
+<div class="sec"><h2 class="st"><b>4</b><span id="h2">Pega tu lista</span></h2>
+<div id="gL"><label for="ls" id="lsl">Una persona por línea</label><textarea id="ls" rows="7" placeholder="Ana López ; Tesorera&#10;Marco Quispe ; Voluntario&#10;Lucía Fernández"></textarea><p class="hint" id="lsh"></p>
+<div class="row2" style="margin-top:10px;align-items:end"><label class="ck"><input id="so" type="checkbox">Ordenar de la A a la Z</label><div><label for="cp" style="margin:0 0 4px">Copias de cada uno</label><input id="cp" type="number" min="1" max="10" value="1"></div></div>
+<button class="tp" id="ex" style="margin-top:10px;min-height:40px;width:auto"><b>Probar con una lista de ejemplo</b></button></div>
+<div id="gQ" hidden><label for="qty" id="ql">Cantidad</label><input id="qty" type="number" min="1" max="1000" value="50"></div>
+<div id="gR" hidden class="row2"><div><label for="fr">Primer número</label><input id="fr" type="number" min="0" value="1"></div><div><label for="pr">Precio del boleto</label><input id="pr" placeholder="Bs 10" maxlength="9"></div></div></div>
+<button class="btn" id="go">Descargar PDF</button><p id="msg" role="status"></p>
+</section>
+<aside class="pvw card"><h2 class="st" style="margin-bottom:10px">Así se verá</h2><div class="pvb" id="pv"></div><div class="cap"><span id="cn"></span><span>Vista aproximada</span></div></aside>
+</main>
+<div class="how"><div><h3>1. Elige</h3><p>Tipo de pieza, diseño y color.</p></div><div><h3>2. Pega</h3><p>Tu lista, aunque la copies desde Excel.</p></div><div><h3>3. Imprime</h3><p>Descarga el PDF, imprímelo y recorta por las líneas punteadas.</p></div></div>
+<h2>Preguntas</h2>
+<details><summary>¿Se guarda mi lista?</summary><p>No. El PDF se genera en tu navegador y la lista no se envía a ningún lado.</p></details>
+<details><summary>¿Cómo lo imprimo?</summary><p>En papel A4, al 100 % (sin “ajustar a la página”). Para boletos y vales conviene un papel algo grueso.</p></details>
+<details><summary>¿Sirve para papel carta (Letter)?</summary><p>Todavía no. Las medidas son para A4 y en Letter pueden cortarse los bordes.</p></details>
+<details><summary>¿Cuántas piezas puedo hacer?</summary><p>Hasta 500 nombres (1500 con copias) o 1000 boletos y cartones por archivo.</p></details>
+<details><summary>¿Los cartones de bingo se repiten?</summary><p>No. Cada cartón se mezcla al azar. Si dejas la lista vacía se usan los números del 1 al 75.</p></details>
+<footer>Snipsy · Todo se procesa en tu dispositivo.</footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const TH={"Tomate":"#D9402B","Océano":"#0F6B6B","Mostaza":"#E3A21A","Ciruela":"#6B2B5B","Cobalto":"#2547B8","Bosque":"#2F5D3A","Grafito":"#2A2F36","Rosa":"#D6336C"},AC={"Tomate":"#F2C14E","Océano":"#F08A5D","Mostaza":"#1E2A33","Ciruela":"#F4A6C0","Cobalto":"#FFD23F","Bosque":"#E9C46A","Grafito":"#FF7A45","Rosa":"#2F5D3A"};
+const T={gafete:{n:"Gafetes",s:"8 por hoja",per:8,tl:"Evento o empresa",tp:"Congreso Regional 2026",dl:"Línea inferior (fecha, lugar)",dp:"12 de noviembre · La Paz",ln:"Una persona por línea"},
+mesa:{n:"Tarjetas de mesa",s:"2 por hoja · se doblan",per:2,tl:"Evento (opcional)",tp:"Boda de Ana y Luis",ln:"Un invitado por línea"},
+rifa:{n:"Boletos de rifa",s:"5 por hoja · con talón",per:5,tl:"Nombre de la rifa",tp:"Gran rifa pro-viaje",dl:"Premio y fecha del sorteo",dp:"Canasta navideña · Sorteo 20 de diciembre",q:"Cantidad de boletos",qv:50},
+diploma:{n:"Diplomas",s:"1 por hoja · horizontal",per:1,tl:"Título del diploma",tp:"Diploma de honor",dl:"Motivo (si no lo pones en la lista)",dp:"por su dedicación y esfuerzo durante el año",ln:"Un nombre por línea (puedes añadir “; motivo”)"},
+bingo:{n:"Cartones de bingo",s:"2 por hoja · todos distintos",per:2,tl:"Título del bingo",tp:"Gran Bingo Familiar",q:"Cantidad de cartones",qv:20,ln:"Palabras del bingo (opcional, mínimo 24)"}};
+T.etiqueta={n:"Etiquetas",s:"24 por hoja",per:24,tl:"Texto pequeño arriba (opcional)",tp:"Colegio San Andrés",ln:"Un nombre por línea (agrega “; curso”)"};
+T.vale={n:"Vales y cupones",s:"8 por hoja",per:8,tl:"Título del vale",tp:"VALE POR",dl:"Pie del vale (opcional)",dp:"Canjeable cuando quieras",ln:"Un vale por línea"};
+Object.entries({gafete:"Congresos, clases, reuniones, voluntarios.",mesa:"Bodas, cenas, banquetes y reuniones.",rifa:"Rifas de colegio, iglesia, club o barrio.",diploma:"Cursos, torneos, fin de año, premios.",bingo:"Fiestas, clases, baby showers.",etiqueta:"Útiles, ropa, loncheras, frascos, cajas.",vale:"Regalos, premios, puntos de conducta."}).forEach(([k,v])=>T[k].use=v);
+const VS={gafete:["Clásico","Lateral","Marco"],mesa:["Clásico","Elegante"],rifa:["Clásico","Moderno"],diploma:["Clásico","Moderno","Elegante"],bingo:["Clásico","Colorido"],etiqueta:["Redondeada","Cinta"],vale:["Clásico","Ticket"]};
+const IC={gafete:'<rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10" r="2.5"/><path d="M8.5 16.5h7"/>',mesa:'<path d="M4 19 12 6l8 13z"/>',rifa:'<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M15 6v12" stroke-dasharray="2 2"/>',diploma:'<rect x="3" y="4" width="18" height="12" rx="1"/><path d="M9 20l3-3 3 3"/>',bingo:'<rect x="4" y="4" width="16" height="16" rx="1"/><path d="M9.3 4v16M14.7 4v16M4 9.3h16M4 14.7h16"/>',etiqueta:'<path d="M3 12V4h8l9 9-8 8z"/><circle cx="7.5" cy="8.5" r="1.2"/>',vale:'<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M9 10h6M9 14h4"/>'};
+const EXV=["Un desayuno en la cama","Una tarde de cine","Elegir la música del viaje","Un abrazo largo","Lavar los platos por ti"];
+const EX=["Ana López ; Tesorera","Marco Quispe ; Voluntario","Lucía Fernández ; Coordinadora","Diego Rojas ; Invitado","Camila Flores ; Prensa"];
+let cur="gafete",col="Tomate",sty=0;
+const hx=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)),lum=h=>{const[r,g,b]=hx(h);return(.299*r+.587*g+.114*b)/255},onc=h=>lum(h)>.6?"#1E2A33":"#FFFFFF";
+const tint=h=>hx(h).map(v=>Math.round(v+(255-v)*.86));
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const st=()=>({c:TH[col],a:AC[col],t:$("#ti").value.trim(),s:$("#su").value.trim(),p:$("#pr").value.trim(),from:Math.max(0,parseInt($("#fr").value)||0),q:Math.min(1000,Math.max(1,parseInt($("#qty").value)||1))});
+const items=()=>{let a=$("#ls").value.split("\n").map(l=>l.trim()).filter(Boolean).slice(0,500).map(l=>l.split(/\s*[;|\t]\s*/).map(x=>x.trim()));if($("#so").checked)a.sort((x,y)=>x[0].localeCompare(y[0]));const k=Math.max(1,Math.min(10,parseInt($("#cp").value)||1));return a.flatMap(x=>Array(k).fill(x)).slice(0,1500)};
+function fit(d,t,w,mx,mn){let s=mx;d.setFontSize(s);while(s>(mn||8)&&d.getTextWidth(t)>w){s--;d.setFontSize(s)}}
+const G={
+gafete(d,o,L){L.forEach((it,i)=>{if(i&&i%8==0)d.addPage();const k=i%8,x=15+k%2*90,y=24.5+Math.floor(k/2)*62,w=90,h=62,cx=x+w/2;
+ d.setFillColor(...hx(o.c));d.rect(x,y,w,17,"F");d.setFillColor(255,255,255);d.roundedRect(cx-5,y+3,10,4.5,2.2,2.2,"F");
+ d.setDrawColor(170);d.setLineWidth(.2);d.setLineDashPattern([1.5,1.5],0);d.rect(x,y,w,h);d.setLineDashPattern([],0);
+ d.setTextColor(...hx(onc(o.c)));d.setFont("helvetica","bold");fit(d,o.t,w-10,12);d.text(o.t,cx,y+14,{align:"center"});
+ d.setTextColor(30,42,51);fit(d,it[0],w-10,26,11);d.text(it[0],cx,y+37,{align:"center"});
+ if(it[1]){d.setFont("helvetica","normal");d.setTextColor(106,98,88);fit(d,it[1],w-10,13,8);d.text(it[1],cx,y+46,{align:"center"})}
+ if(o.s){d.setFont("helvetica","normal");d.setFontSize(8);d.setTextColor(106,98,88);d.text(o.s,cx,y+57,{align:"center"})}})},
+mesa(d,o,L){L.forEach((it,i)=>{if(i&&i%2==0)d.addPage();const x=15,y=i%2?157:15,w=180,h=125,m=y+h/2,cx=x+w/2;
+ d.setFillColor(...hx(o.c));d.rect(x,y,w,5,"F");d.rect(x,y+h-5,w,5,"F");
+ d.setDrawColor(150);d.setLineWidth(.2);d.setLineDashPattern([2,2],0);d.line(x,m,x+w,m);d.rect(x,y,w,h);d.setLineDashPattern([],0);
+ d.setTextColor(30,42,51);d.setFont("helvetica","bold");fit(d,it[0],w-20,54,16);const tw=d.getTextWidth(it[0]);
+ d.text(it[0],cx-tw/2,m+30);d.text(it[0],cx+tw/2,m-30,{angle:180});
+ const sub=it[1]||"";if(sub){d.setFont("helvetica","normal");d.setTextColor(106,98,88);fit(d,sub,w-20,16,9);const sw=d.getTextWidth(sub);d.text(sub,cx-sw/2,m+41);d.text(sub,cx+sw/2,m-41,{angle:180})}
+ if(o.t){d.setFont("helvetica","bold");d.setTextColor(...hx(o.c));fit(d,o.t,w-20,10,6);const ew=d.getTextWidth(o.t);d.text(o.t,cx-ew/2,m+51);d.text(o.t,cx+ew/2,m-51,{angle:180})}})},
+rifa(d,o){const pad=String(o.from+o.q-1).length;for(let i=0;i<o.q;i++){if(i&&i%5==0)d.addPage();const x=10,y=23.5+i%5*50,w=190,h=48,sw=52,n=String(o.from+i).padStart(pad,"0"),oc=hx(onc(o.c));
+ d.setFillColor(...hx(o.c));d.rect(x,y,sw,h,"F");d.setTextColor(...oc);d.setFont("helvetica","normal");d.setFontSize(8);d.text("TALÓN",x+sw/2,y+8,{align:"center"});
+ d.setFont("helvetica","bold");fit(d,"Nº "+n,sw-8,22,12);d.text("Nº "+n,x+sw/2,y+22,{align:"center"});
+ d.setFont("helvetica","normal");d.setFontSize(8);d.text("Nombre:",x+4,y+33);d.text("Tel.:",x+4,y+42);d.setDrawColor(...oc);d.setLineWidth(.2);d.line(x+17,y+33,x+sw-4,y+33);d.line(x+11,y+42,x+sw-4,y+42);
+ d.setDrawColor(...hx(o.c));d.setLineWidth(.6);d.rect(x,y,w,h);
+ d.setDrawColor(130);d.setLineWidth(.3);d.setLineDashPattern([1.5,1.5],0);d.line(x+sw,y,x+sw,y+h);d.setLineDashPattern([],0);
+ const bx=x+sw+7,bw=w-sw-14-(o.p?24:0);d.setTextColor(30,42,51);d.setFont("helvetica","bold");fit(d,o.t||"RIFA",bw,20,11);d.text(o.t||"RIFA",bx,y+15);
+ if(o.s){d.setFont("helvetica","normal");d.setTextColor(106,98,88);d.setFontSize(10);d.text(d.splitTextToSize(o.s,bw).slice(0,2),bx,y+24)}
+ d.setFont("helvetica","bold");d.setFontSize(12);d.setTextColor(...hx(o.c));d.text("Nº "+n,bx,y+h-6);
+ if(o.p){d.setFillColor(...hx(o.c));d.circle(x+w-14,y+h/2,10,"F");d.setTextColor(...oc);fit(d,o.p,15,12,6);d.text(o.p,x+w-14,y+h/2+1.5,{align:"center"})}}},
+diploma(d,o,L){const W=297,H=210;L.forEach((it,i)=>{if(i)d.addPage();
+ d.setDrawColor(...hx(o.c));d.setLineWidth(3);d.rect(10,10,W-20,H-20);d.setLineWidth(.5);d.rect(16,16,W-32,H-32);d.setFillColor(...hx(o.c));[[10,10],[W-10,10],[10,H-10],[W-10,H-10]].forEach(p=>d.circle(p[0],p[1],4.5,"F"));
+ d.setTextColor(...hx(o.c));d.setFont("helvetica","bold");const t=(o.t||"Diploma de honor").toUpperCase();fit(d,t,W-80,38,16);d.text(t,W/2,60,{align:"center",charSpace:1.5});
+ d.setTextColor(106,98,88);d.setFont("times","italic");d.setFontSize(18);d.text("Se otorga a",W/2,86,{align:"center"});
+ d.setTextColor(30,42,51);d.setFont("times","bolditalic");fit(d,it[0],W-80,54,20);d.text(it[0],W/2,112,{align:"center"});
+ d.setDrawColor(...hx(o.c));d.setLineWidth(.6);d.line(W/2-80,119,W/2+80,119);
+ d.setFont("helvetica","normal");d.setFontSize(15);d.setTextColor(70,70,70);d.text(d.splitTextToSize(it[1]||o.s||"por su dedicación y esfuerzo",190).slice(0,3),W/2,136,{align:"center"});
+ d.setDrawColor(90);d.setLineWidth(.3);d.line(50,175,115,175);d.line(182,175,247,175);d.setFontSize(10);d.text("Firma",82.5,181,{align:"center"});d.text("Fecha",214.5,181,{align:"center"})})},
+bingo(d,o,L){const words=[...new Set(L.map(x=>x[0]))],num=words.length<24;
+ for(let i=0;i<o.q;i++){if(i&&i%2==0)d.addPage();const x0=40,y0=8+i%2*146,cw=26,ch=22,bh=14,lh=num?9:0,oc=hx(onc(o.c));let cells;
+  if(num){const cs=[0,1,2,3,4].map(c=>shuf(Array.from({length:15},(_,k)=>c*15+k+1)).slice(0,5));cells=Array.from({length:25},(_,k)=>String(cs[k%5][Math.floor(k/5)]))}else cells=shuf(words).slice(0,24);
+  if(!num||true)cells.splice(12,num?1:0,"LIBRE");
+  d.setFillColor(...hx(o.c));d.rect(x0,y0,cw*5,bh,"F");d.setTextColor(...oc);d.setFont("helvetica","bold");const tt=(o.t||"BINGO").toUpperCase();fit(d,tt,cw*5-10,22,10);d.text(tt,x0+cw*2.5,y0+bh/2+3,{align:"center"});
+  if(num){"BINGO".split("").forEach((l,c)=>{d.setFillColor(...(o.cc?hx(o.a):tint(o.c)));d.rect(x0+c*cw,y0+bh,cw,lh,"F");d.setTextColor(...(o.cc?hx(onc(o.a)):hx(o.c)));d.setFontSize(14);d.text(l,x0+c*cw+cw/2,y0+bh+6.5,{align:"center"})})}
+  d.setDrawColor(...hx(o.c));d.setLineWidth(.4);
+  cells.forEach((w,k)=>{const cx=x0+k%5*cw,cy=y0+bh+lh+Math.floor(k/5)*ch;if(w==="LIBRE"){d.setFillColor(...tint(o.c));d.rect(cx,cy,cw,ch,"FD")}else if(o.cc&&(k+Math.floor(k/5))%2){d.setFillColor(...tint(o.a));d.rect(cx,cy,cw,ch,"FD")}else d.rect(cx,cy,cw,ch);
+   d.setFont("helvetica","bold");if(w==="LIBRE"){d.setTextColor(...hx(o.c));d.setFontSize(10);d.text("LIBRE",cx+cw/2,cy+ch/2+1.3,{align:"center"})}
+   else if(num){d.setTextColor(30,42,51);d.setFontSize(22);d.text(w,cx+cw/2,cy+ch/2+3.2,{align:"center"})}
+   else{d.setTextColor(30,42,51);d.setFontSize(10);const ln=d.splitTextToSize(w,cw-3).slice(0,3);d.text(ln,cx+cw/2,cy+ch/2-(ln.length-1)*2.1+1.2,{align:"center"})}});
+  d.setFont("helvetica","normal");d.setFontSize(7);d.setTextColor(140);d.text("Cartón Nº "+(i+1),x0,y0+bh+lh+ch*5+4)}}};
+Object.assign(G,{
+gafete1(d,o,L){L.forEach((it,i)=>{if(i&&i%8==0)d.addPage();const k=i%8,x=15+k%2*90,y=24.5+Math.floor(k/2)*62,w=90,h=62,tx=x+23;
+ d.setFillColor(...hx(o.c));d.rect(x,y,14,h,"F");d.setFillColor(...hx(o.a));d.rect(x+14,y,3,h,"F");
+ d.setDrawColor(170);d.setLineWidth(.2);d.setLineDashPattern([1.5,1.5],0);d.rect(x,y,w,h);d.setLineDashPattern([],0);
+ d.setFont("helvetica","bold");d.setTextColor(...hx(o.c));const t=o.t.toUpperCase();fit(d,t,w-30,9,6);d.text(t,tx,y+11);
+ d.setTextColor(30,42,51);fit(d,it[0],w-30,24,10);d.text(it[0],tx,y+35);
+ if(it[1]){d.setFont("helvetica","normal");d.setTextColor(106,98,88);fit(d,it[1],w-30,12,7);d.text(it[1],tx,y+44)}
+ if(o.s){d.setFont("helvetica","normal");d.setFontSize(8);d.setTextColor(106,98,88);d.text(o.s,tx,y+h-6)}})},
+gafete2(d,o,L){L.forEach((it,i)=>{if(i&&i%8==0)d.addPage();const k=i%8,x=15+k%2*90,y=24.5+Math.floor(k/2)*62,w=90,h=62,cx=x+w/2;
+ d.setDrawColor(170);d.setLineWidth(.2);d.setLineDashPattern([1.5,1.5],0);d.rect(x,y,w,h);d.setLineDashPattern([],0);
+ d.setDrawColor(...hx(o.c));d.setLineWidth(1.6);d.roundedRect(x+2.5,y+2.5,w-5,h-5,4,4);d.setFillColor(...hx(o.a));d.circle(cx,y+10,3.6,"F");d.setFillColor(...hx(o.c));d.circle(cx,y+10,1.5,"F");
+ d.setFont("helvetica","bold");d.setTextColor(...hx(o.c));const t=o.t.toUpperCase();fit(d,t,w-16,9,6);d.text(t,cx,y+21,{align:"center"});
+ d.setTextColor(30,42,51);fit(d,it[0],w-16,24,10);d.text(it[0],cx,y+37,{align:"center"});
+ if(it[1]){d.setFont("helvetica","normal");d.setTextColor(106,98,88);fit(d,it[1],w-16,12,7);d.text(it[1],cx,y+46,{align:"center"})}
+ if(o.s){d.setFont("helvetica","normal");d.setFontSize(8);d.setTextColor(106,98,88);d.text(o.s,cx,y+h-7,{align:"center"})}})},
+mesa1(d,o,L){L.forEach((it,i)=>{if(i&&i%2==0)d.addPage();const x=15,y=i%2?157:15,w=180,h=125,m=y+h/2,cx=x+w/2;
+ d.setDrawColor(150);d.setLineWidth(.2);d.setLineDashPattern([2,2],0);d.line(x,m,x+w,m);d.setLineDashPattern([],0);
+ d.setDrawColor(...hx(o.c));d.setLineWidth(1);d.rect(x,y,w,h);d.setLineWidth(.3);d.rect(x+3,y+3,w-6,h-6);d.setFillColor(...hx(o.a));d.rect(cx-8,m-1,16,2,"F");
+ d.setTextColor(30,42,51);d.setFont("times","bolditalic");fit(d,it[0],w-30,54,16);const tw=d.getTextWidth(it[0]);d.text(it[0],cx-tw/2,m+30);d.text(it[0],cx+tw/2,m-30,{angle:180});
+ if(it[1]){d.setFont("times","italic");d.setTextColor(106,98,88);fit(d,it[1],w-30,18,9);const sw=d.getTextWidth(it[1]);d.text(it[1],cx-sw/2,m+42);d.text(it[1],cx+sw/2,m-42,{angle:180})}})},
+rifa1(d,o){const pad=String(o.from+o.q-1).length;for(let i=0;i<o.q;i++){if(i&&i%5==0)d.addPage();const x=10,y=23.5+i%5*50,w=190,h=48,bw=138,n=String(o.from+i).padStart(pad,"0"),oc=hx(onc(o.c));
+ d.setFillColor(...hx(o.c));d.rect(x,y,bw,h,"F");d.setFillColor(...hx(o.a));d.rect(x,y,bw,3,"F");d.setDrawColor(...hx(o.c));d.setLineWidth(.6);d.rect(x,y,w,h);
+ d.setTextColor(...oc);d.setFont("helvetica","bold");fit(d,o.t||"RIFA",bw-16,22,11);d.text(o.t||"RIFA",x+8,y+19);
+ if(o.s){d.setFont("helvetica","normal");d.setFontSize(10.5);d.text(d.splitTextToSize(o.s,bw-16).slice(0,2),x+8,y+28)}
+ d.setFont("helvetica","bold");d.setFontSize(10);if(o.p)d.text(o.p,x+8,y+h-6);d.text("Nº "+n,x+bw-8,y+h-6,{align:"right"});
+ d.setDrawColor(130);d.setLineWidth(.3);d.setLineDashPattern([1.5,1.5],0);d.line(x+bw,y,x+bw,y+h);d.setLineDashPattern([],0);
+ const sx=x+bw+26;d.setTextColor(...hx(o.c));d.setFontSize(8);d.setFont("helvetica","normal");d.text("TALÓN",sx,y+8,{align:"center"});d.setFont("helvetica","bold");fit(d,"Nº "+n,40,20,11);d.text("Nº "+n,sx,y+21,{align:"center"});
+ d.setTextColor(106,98,88);d.setFont("helvetica","normal");d.setFontSize(8);d.text("Nombre:",x+bw+4,y+32);d.text("Tel.:",x+bw+4,y+41);d.setDrawColor(150);d.setLineWidth(.2);d.line(x+bw+17,y+32,x+w-4,y+32);d.line(x+bw+11,y+41,x+w-4,y+41)}},
+diploma1(d,o,L){const H=210;L.forEach((it,i)=>{if(i)d.addPage();
+ d.setFillColor(...hx(o.c));d.rect(0,0,78,H,"F");d.setFillColor(...hx(o.a));d.rect(78,0,5,H,"F");
+ d.setTextColor(...hx(onc(o.c)));d.setFont("helvetica","bold");d.setFontSize(20);d.text(d.splitTextToSize((o.t||"Diploma de honor").toUpperCase(),56).slice(0,4),12,44);
+ d.setTextColor(106,98,88);d.setFont("helvetica","normal");d.setFontSize(13);d.text("Se otorga a",100,78);
+ d.setTextColor(30,42,51);d.setFont("helvetica","bold");fit(d,it[0],180,44,18);d.text(it[0],100,104);
+ d.setDrawColor(...hx(o.a));d.setLineWidth(1.4);d.line(100,111,150,111);
+ d.setFont("helvetica","normal");d.setFontSize(14);d.setTextColor(70,70,70);d.text(d.splitTextToSize(it[1]||o.s||"por su dedicación y esfuerzo",175).slice(0,3),100,128);
+ d.setDrawColor(90);d.setLineWidth(.3);d.line(100,178,160,178);d.line(190,178,250,178);d.setFontSize(10);d.text("Firma",130,184,{align:"center"});d.text("Fecha",220,184,{align:"center"})})},
+diploma2(d,o,L){const W=297,H=210;L.forEach((it,i)=>{if(i)d.addPage();
+ d.setDrawColor(...hx(o.c));d.setLineWidth(1.2);d.rect(12,12,W-24,H-24);d.setDrawColor(...hx(o.a));d.setLineWidth(.8);d.rect(17,17,W-34,H-34);
+ d.setDrawColor(...hx(o.c));d.setLineWidth(.4);d.line(W/2-40,50,W/2-6,50);d.line(W/2+6,50,W/2+40,50);d.setFillColor(...hx(o.c));d.circle(W/2,50,2,"F");
+ d.setTextColor(...hx(o.c));d.setFont("times","bold");fit(d,o.t||"Diploma de honor",W-90,40,18);d.text(o.t||"Diploma de honor",W/2,74,{align:"center"});
+ d.setTextColor(106,98,88);d.setFont("times","italic");d.setFontSize(17);d.text("Se otorga a",W/2,92,{align:"center"});
+ d.setTextColor(30,42,51);d.setFont("times","bolditalic");fit(d,it[0],W-90,52,20);d.text(it[0],W/2,116,{align:"center"});
+ d.setDrawColor(...hx(o.a));d.setLineWidth(.7);d.line(W/2-70,123,W/2+70,123);
+ d.setFont("times","normal");d.setFontSize(16);d.setTextColor(70,70,70);d.text(d.splitTextToSize(it[1]||o.s||"por su dedicación y esfuerzo",190).slice(0,3),W/2,140,{align:"center"});
+ d.setDrawColor(90);d.setLineWidth(.3);d.line(50,172,115,172);d.line(182,172,247,172);d.setFontSize(10);d.text("Firma",82.5,178,{align:"center"});d.text("Fecha",214.5,178,{align:"center"})})},
+etiqueta(d,o,L){L.forEach((it,i)=>{if(i&&i%24==0)d.addPage();const k=i%24,x=6+k%3*66,y=12.5+Math.floor(k/3)*34,w=66,h=34,cx=x+w/2;
+ d.setDrawColor(...hx(o.c));d.setLineWidth(.7);d.roundedRect(x+1,y+1,w-2,h-2,4,4);
+ if(o.t){d.setFont("helvetica","bold");d.setTextColor(...hx(o.c));fit(d,o.t,w-12,8,5);d.text(o.t,cx,y+9,{align:"center"})}
+ d.setTextColor(30,42,51);d.setFont("helvetica","bold");fit(d,it[0],w-10,19,8);d.text(it[0],cx,y+(it[1]?20:22),{align:"center"});
+ if(it[1]){d.setFont("helvetica","normal");d.setTextColor(106,98,88);fit(d,it[1],w-10,10,6);d.text(it[1],cx,y+28,{align:"center"})}})},
+etiqueta1(d,o,L){L.forEach((it,i)=>{if(i&&i%24==0)d.addPage();const k=i%24,x=6+k%3*66,y=12.5+Math.floor(k/3)*34,w=66,h=34,tx=x+16;
+ d.setDrawColor(200);d.setLineWidth(.2);d.setLineDashPattern([1.5,1.5],0);d.rect(x+1,y+1,w-2,h-2);d.setLineDashPattern([],0);d.setFillColor(...hx(o.c));d.rect(x+1,y+1,9,h-2,"F");d.setFillColor(...hx(o.a));d.rect(x+10,y+1,2,h-2,"F");
+ if(o.t){d.setFont("helvetica","bold");d.setTextColor(...hx(o.c));fit(d,o.t,w-22,8,5);d.text(o.t,tx,y+9)}
+ d.setTextColor(30,42,51);d.setFont("helvetica","bold");fit(d,it[0],w-22,19,8);d.text(it[0],tx,y+(it[1]?20:22));
+ if(it[1]){d.setFont("helvetica","normal");d.setTextColor(106,98,88);fit(d,it[1],w-22,10,6);d.text(it[1],tx,y+28)}})},
+vale(d,o,L){L.forEach((it,i)=>{if(i&&i%8==0)d.addPage();const k=i%8,x=10+k%2*95,y=16.5+Math.floor(k/2)*66,w=95,h=66,cx=x+w/2,t=o.t||"VALE POR";
+ d.setFillColor(...hx(o.c));d.rect(x+2,y+2,w-4,14,"F");d.setTextColor(...hx(onc(o.c)));d.setFont("helvetica","bold");fit(d,t,w-14,13,8);d.text(t,cx,y+11.5,{align:"center"});
+ d.setDrawColor(...hx(o.c));d.setLineWidth(.5);d.setLineDashPattern([2,1.5],0);d.rect(x+2,y+2,w-4,h-4);d.setLineDashPattern([],0);
+ d.setTextColor(30,42,51);let s=18,ln;do{d.setFontSize(s);ln=d.splitTextToSize(it[0],w-20);s--}while((ln.length>4||ln.length*s*.45>34)&&s>9);
+ d.text(ln,cx,y+30-(ln.length-1)*(s*.2),{align:"center"});
+ if(o.s){d.setFont("helvetica","normal");d.setFontSize(8);d.setTextColor(106,98,88);d.text(o.s,cx,y+h-7,{align:"center"})}})},
+vale1(d,o,L){L.forEach((it,i)=>{if(i&&i%8==0)d.addPage();const k=i%8,x=10+k%2*95,y=16.5+Math.floor(k/2)*66,w=95,h=66,cx=x+w/2+8,t=o.t||"VALE POR";
+ d.setFillColor(...hx(o.c));d.rect(x+2,y+2,18,h-4,"F");d.setFillColor(...hx(o.a));d.rect(x+20,y+2,2,h-4,"F");
+ d.setTextColor(...hx(onc(o.c)));d.setFont("helvetica","bold");fit(d,t,h-16,13,7);d.text(t,x+13,y+h-8,{angle:90});
+ d.setDrawColor(...hx(o.c));d.setLineWidth(.6);d.rect(x+2,y+2,w-4,h-4);
+ d.setTextColor(30,42,51);let s=18,ln;do{d.setFontSize(s);ln=d.splitTextToSize(it[0],w-38);s--}while((ln.length>4||ln.length*s*.45>34)&&s>9);
+ d.text(ln,cx,y+30-(ln.length-1)*(s*.2),{align:"center"});
+ if(o.s){d.setFont("helvetica","normal");d.setFontSize(8);d.setTextColor(106,98,88);d.text(o.s,cx,y+h-7,{align:"center"})}})},
+bingo1(d,o,L){G.bingo(d,Object.assign({},o,{cc:1}),L)}});
+async function save(blob,name){try{const dl=window.claude&&await claude.use("downloads");if(dl){await dl.save({filename:name,data:blob});return"ok"}}catch(e){if(e&&e.code==="declined")return"no"}
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();return"ok"}
+function count(){const o=st(),n=T[cur].q?o.q:items().length;return[n,Math.ceil(n/T[cur].per)]}
+function pv(){const o=st(),c=o.c,a=o.a,oc=onc(c),L=items(),it=L[0]||(cur==="vale"?[EXV[0]]:["Ana López",cur==="gafete"?"Tesorera":""]),t=o.t||T[cur].tp,s=o.s||T[cur].dp||"",nm=esc(it[0]),sb=esc(it[1]||""),n=String(o.from).padStart(3,"0"),v=sty;
+ $("#pv").style.cssText="--c:"+c+";--a:"+a+";--oc:"+oc+";--ac:"+onc(a);let h="";
+ if(cur==="gafete")h=`<div class="pc g g${v}"><div class="gb" style="background:${c};color:${oc}">${esc(o.t||"Tu evento")}</div><i class="ho"></i><b>${nm}</b><em>${sb}</em></div>`;
+ else if(cur==="mesa")h=`<div class="pc m m${v}"><b>${nm}</b><hr><b>${nm}</b></div>`;
+ else if(cur==="rifa")h=`<div class="pc r r${v}"><div class="s" style="color:${oc}"><small>TALÓN</small><b>Nº ${n}</b></div><div class="d"><h4>${esc(t)}</h4><p>${esc(s)}</p><span class="n" style="color:${c}">Nº ${n}</span>${o.p?`<div class="pr">${esc(o.p)}</div>`:""}</div></div>`;
+ else if(cur==="diploma")h=`<div class="pc d2 e${v}"><div><h4>${esc(t)}</h4><i>Se otorga a</i><b>${nm}</b><p>${esc(it[1]||s)}</p></div></div>`;
+ else if(cur==="etiqueta")h=`<div class="pc et et${v}">${[0,1,2].map(k=>`<span><small>${esc(o.t)}</small><b>${esc((L[k]||it)[0])}</b></span>`).join("")}</div>`;
+ else if(cur==="vale")h=`<div class="pc vl vl${v}"><div class="vt">${esc(o.t||"VALE POR")}</div><p>${nm}</p><small>${esc(o.s)}</small></div>`;
+ else{const w=[...new Set(L.map(x=>x[0]))],num=w.length<24,cs=num?[7,22,38,53,68,3,19,31,56,70,12,27,41,49,62,9,24,36,50,75,5,16,33,47,64]:shuf(w).slice(0,24);if(!num)cs.splice(12,0,"");
+  h=`<div class="pc bg2 b${v}"><h4>${esc((o.t||"BINGO").toUpperCase())}</h4><div>${cs.slice(0,25).map((x,k)=>`<span class="${k==12?"f":""}">${k==12?"LIBRE":esc(x)}</span>`).join("")}</div></div>`}
+ $("#pv").innerHTML=h;const[n2,p2]=count();$("#cn").innerHTML=`<b>${n2}</b> ${n2==1?"pieza":"piezas"} · <b>${p2}</b> ${p2==1?"hoja":"hojas"}`;$(".btn").style.setProperty("--bc",oc)}
+function upd(){const c=T[cur];$("#ti").placeholder=c.tp;$("#tl").textContent=c.tl;$("#gB").hidden=!c.dl;if(c.dl){$("#sl").textContent=c.dl;$("#su").placeholder=c.dp}
+ $("#gQ").hidden=!c.q;if(c.q)$("#ql").textContent=c.q;$("#gL").hidden=cur==="rifa";$("#gR").hidden=cur!=="rifa";if(c.ln)$("#lsl").textContent=c.ln;
+ $("#h2").textContent=cur==="rifa"?"Numeración":"Pega tu lista";$("#use").textContent=c.use;
+ $("#lsh").textContent=cur==="bingo"?"Déjala vacía para usar los números del 1 al 75.":cur==="vale"?"Cada línea es un vale distinto.":"Separa nombre y detalle con “;” o pega columnas desde Excel. Máximo 500.";
+ $("#vs").innerHTML=VS[cur].map((n,i)=>`<button class="tp" data-v="${i}" aria-pressed="${i==sty}"><b>${n}</b></button>`).join("");
+ document.querySelectorAll(".tp[data-k]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===cur));document.querySelectorAll("#sw button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.n===col));
+ document.documentElement.style.setProperty("--c",TH[col]);pv()}
+$("#tps").innerHTML=Object.keys(T).map(k=>`<button class="tp tt" data-k="${k}" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true">${IC[k]}</svg><div><b>${T[k].n}</b><span>${T[k].s}</span></div></button>`).join("");
+$("#sw").innerHTML=Object.keys(TH).map(n=>`<button data-n="${n}" aria-label="${n}" aria-pressed="false" style="background:${TH[n]}"></button>`).join("");
+$("#tps").onclick=e=>{const b=e.target.closest("[data-k]");if(!b)return;cur=b.dataset.k;sty=0;if(T[cur].qv&&!$("#qty").dataset.u)$("#qty").value=T[cur].qv;$("#msg").textContent="";upd()};
+$("#vs").onclick=e=>{const b=e.target.closest("[data-v]");if(b){sty=+b.dataset.v;upd()}};
+$("#sw").onclick=e=>{const b=e.target.closest("[data-n]");if(b){col=b.dataset.n;upd()}};
+$("#qty").addEventListener("input",()=>$("#qty").dataset.u=1);
+$("#ex").onclick=()=>{$("#ls").value=(cur==="vale"?EXV:EX).join("\n");upd()};
+document.addEventListener("input",upd);
+$("#go").onclick=async()=>{const m=$("#msg"),b=$("#go"),o=st(),L=items();m.textContent="";m.style.color="";
+ if(!window.jspdf){m.style.color="#B42318";m.textContent="No se pudo cargar el generador de PDF. Revisa tu conexión y recarga la página.";return}
+ if(!T[cur].q&&!L.length){m.style.color="#B42318";m.textContent="Pega al menos un nombre en la lista.";$("#ls").focus();return}
+ b.disabled=true;const t0=b.textContent;b.textContent="Armando el PDF…";await new Promise(r=>setTimeout(r,40));
+ try{const d=new window.jspdf.jsPDF({unit:"mm",format:"a4",orientation:cur==="diploma"?"l":"p"});(G[cur+(sty||"")]||G[cur])(d,o,L);const r=await save(d.output("blob"),"snipsy-"+cur+".pdf");
+  if(r==="ok")m.textContent="Listo. Imprímelo al 100 % de tamaño (sin “ajustar a la página”) y recorta por las líneas punteadas."}
+ catch(e){console.warn("Papelitos:",e);m.style.color="#B42318";m.textContent="No se pudo crear el PDF. Prueba con menos piezas."}
+ finally{b.disabled=false;b.textContent=t0}};
+upd();
+</script></body></html>
